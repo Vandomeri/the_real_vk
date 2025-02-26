@@ -22,6 +22,7 @@ export default function Form() {
 
         if (resp?.ok) {
             router.push('/')
+            router.refresh()
         }
     }
 

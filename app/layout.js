@@ -1,6 +1,8 @@
 import { getServerSession } from "next-auth";
 import "./globals.css";
 import Link from "next/link";
+import authConfig from "@/authConfig";
+import TheHeader from "@/components/blocks/TheHeader";
 
 export const metadata = {
   title: "The Real Vkontakte",
@@ -8,26 +10,17 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  const session = await getServerSession()
+  const session = await getServerSession(authConfig)
   return (
     <html lang="ru">
 
       <body>
 
-        <header className="flex justify-between">
-          <div>LOGO</div>
+        <TheHeader session={session} />
 
-          <nav>
-            {
-              session ?
-                (<Link href='/login'>Выход</Link>) :
-                (<Link href='/login'>Вход</Link>)
-            }
-          </nav>
-        </header>
-
-
-        {children}
+        <main className="max-w-[1200px] mx-auto py-10">
+          {children}
+        </main>
       </body>
     </html >
   );

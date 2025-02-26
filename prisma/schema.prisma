@@ -38,7 +38,7 @@ model users_profile {
   aboutMe     String
   country     String
   city        String
-  status      String
+  status      String?
   user        users    @relation(fields: [usersId], references: [id])
   usersId     Int      @unique
 }
