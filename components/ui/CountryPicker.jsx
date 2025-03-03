@@ -4,14 +4,13 @@
 import { useRef, useState } from "react"
 import { Input } from "./input"
 
-export default function CountryPicker({ setCountry }) {
+export default function CountryPicker({ defaultCountry }) {
     const [countries, setCountries] = useState([])
     const input = useRef(null)
     function handleClick(e) {
-        setCountry(e.target.dataset.country)
         setCountries([])
         console.log(e.target.dataset.country)
-        input.value = e.target.dataset.country
+        input.current.value = e.target.dataset.country
     }
 
     let timeout
@@ -34,7 +33,7 @@ export default function CountryPicker({ setCountry }) {
 
     return (
         <div className="relative">
-            <Input ref={input} placeholder="Введите страну" onInput={getCountries} />
+            <Input defaultValue={defaultCountry} ref={input} name="country" placeholder="Введите страну" onInput={getCountries} />
             {
                 countries.length > 0 && (
                     <div className="absolute w-full left-0 top-[105%] border border-blue-600">

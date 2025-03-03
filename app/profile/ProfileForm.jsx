@@ -1,36 +1,46 @@
 'use client'
 
+import { Button } from "@/components/ui/button";
+import CityPicker from "@/components/ui/CityPicker";
 import CountryPicker from "@/components/ui/CountryPicker";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { createUpdateProfile } from "@/serverActions";
+import { useActionState } from "react";
 
-export default function ProfileForm() {
+export default function ProfileForm({ profile }) {
 
-    const [country, setCountry] = useState('')
-    const [city, setCity] = useState('')
+    const [state, serverAction, pending] = useActionState(createUpdateProfile, {
+        message: ''
+    })
 
     return (
-        <form action="" className="flex flex-col gap-y-5">
-            <Input name="dateOfBirth" type="date" />
+        <form action={serverAction} className="flex flex-col gap-y-5">
+            <Input defaultValue={new Date(profile.dateOfBirth).toISOString().split('T')[0]} name="dateOfBirth" type="date" />
 
             <div>
                 <p className="text-xl">Ваш пол:</p>
                 <div className="flex gap-x-5 mt-3">
                     <label>
                         <p>Мужской</p>
-                        <Input className="w-5" value="male" name="sex" type="radio" />
+                        <Input defaultChecked={profile.sex === 'male'} className="w-5" value="male" name="sex" type="radio" />
                     </label>
                     <label>
                         <p>Женский</p>
-                        <Input className="w-5" value="female" name="sex" type="radio" />
+                        <Input defaultChecked={profile.sex === 'female'} className="w-5" value="female" name="sex" type="radio" />
                     </label>
                 </div>
             </div>
 
-            <Textarea name="aboutMe" placeholder="Введите информацию о себе"></Textarea>
+            <Textarea defaultValue={profile.aboutMe} name="aboutMe" placeholder="Введите информацию о себе"></Textarea>
 
-            <CountryPicker setCountry={setCountry} />
+            <CountryPicker defaultCountry={profile.country} />
+
+            <CityPicker defaultCity={profile.city} />
+
+            <Button disabled={pending} type="submit">Сохранить</Button>
+
+            <p className="mt-5 text-center">{state?.message}</p>
         </form>
     )
 }
