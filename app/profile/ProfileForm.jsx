@@ -16,6 +16,12 @@ export default function ProfileForm({ profile }) {
 
     return (
         <form action={serverAction} className="flex flex-col gap-y-5">
+
+            <label>
+                <img src={`/avatars/${profile.avatar}`} alt="" />
+                <input hidden type="file" name="avatar" />
+            </label>
+
             <Input defaultValue={new Date(profile.dateOfBirth).toISOString().split('T')[0]} name="dateOfBirth" type="date" />
 
             <div>
