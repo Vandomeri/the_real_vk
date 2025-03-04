@@ -50,6 +50,8 @@ model friends {
   friend_id Int
   users     users? @relation(fields: [usersId], references: [id])
   usersId   Int?
+
+  isAproved Boolean @default(false)
 }
 
 model chats {
