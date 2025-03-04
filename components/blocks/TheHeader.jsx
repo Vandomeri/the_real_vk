@@ -13,12 +13,20 @@ export default function TheHeader({ session }) {
                     session ?
                         (
                             <>
+
+                                <Link href="/friends">Друзья</Link>
+                                <Link href="/search">Поиск</Link>
                                 <Link href='/profile'>Профиль</Link>
                                 <button onClick={() => signOut()}>Выход</button>
 
                             </>
                         ) :
-                        (<Link href='/login'>Вход</Link>)
+                        (
+                            <>
+                                <Link href="register">Регистрация</Link>
+                                <Link href='/login'>Вход</Link>
+                            </>
+                        )
                 }
             </nav>
         </header>

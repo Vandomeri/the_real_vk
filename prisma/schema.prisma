@@ -23,11 +23,12 @@ model users {
   password   String
 
   profile users_profile?
-  friends friends[]
 
   chats chats[]
 
-  role String @default("user")
+  role    String    @default("user")
+  friend  friends[]
+  friends friends[] @relation(name: "Friends")
 }
 
 model users_profile {
@@ -47,9 +48,10 @@ model users_profile {
 model friends {
   id Int @id @default(autoincrement())
 
-  friend_id Int
-  users     users? @relation(fields: [usersId], references: [id])
-  usersId   Int?
+  friend   users  @relation(fields: [friendId], references: [id], name: "Friends")
+  friendId Int
+  users    users? @relation(fields: [usersId], references: [id])
+  usersId  Int?
 
   isAproved Boolean @default(false)
 }

@@ -97,3 +97,9 @@ export async function createUpdateProfile(prevState, formData) {
         }
     }
 }
+
+
+
+export async function addToFriends(prevState, formData) {
+
+}
