@@ -1,6 +1,11 @@
+import { PrismaClient } from "@prisma/client"
+import { getServerSessionId } from "@/utils"
+export default async function Home() {
 
-export default function Home() {
   return (
-    <div>Home</div>
+
+    <div>
+
+    </div>
   )
 }

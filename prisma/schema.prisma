@@ -26,9 +26,10 @@ model users {
 
   chats chats[]
 
-  role    String    @default("user")
-  friend  friends[]
-  friends friends[] @relation(name: "Friends")
+  role String @default("user")
+
+  sentRequests friends[] @relation(name: "user")
+  gotRequests  friends[] @relation(name: "friend")
 }
 
 model users_profile {
@@ -48,10 +49,10 @@ model users_profile {
 model friends {
   id Int @id @default(autoincrement())
 
-  friend   users  @relation(fields: [friendId], references: [id], name: "Friends")
+  friend   users  @relation(fields: [friendId], references: [id], name: "friend")
   friendId Int
-  users    users? @relation(fields: [usersId], references: [id])
-  usersId  Int?
+  user     users? @relation(fields: [userId], references: [id], name: "user")
+  userId   Int?
 
   isAproved Boolean @default(false)
 }
