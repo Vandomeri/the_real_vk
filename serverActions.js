@@ -8,6 +8,7 @@ import authConfig from "./authConfig"
 import { revalidatePath } from "next/cache"
 import { writeFileSync } from "fs"
 import { join } from "path"
+import { getServerSessionId } from "./utils"
 const prisma = new PrismaClient()
 
 function uuidv4() {
@@ -31,6 +32,18 @@ export async function registerUser(formData) {
         }
     })
 
+    const profile = await prisma.users_profile.create({
+        data: {
+            aboutMe: '',
+            city: '',
+            country: '',
+            dateOfBirth: null,
+            sex: '',
+            status: '',
+            usersId: resp.id
+        }
+    })
+
     redirect('/login')
 }
 
@@ -39,6 +52,7 @@ export async function registerUser(formData) {
 export async function createUpdateProfile(prevState, formData) {
 
     const session = await getServerSession(authConfig)
+    console.log(session)
 
     const allowedTypes = [
         'image/png',
@@ -67,7 +81,7 @@ export async function createUpdateProfile(prevState, formData) {
 
     const resp = await prisma.users_profile.upsert({
         where: {
-            id: session.user.id
+            usersId: session.user.id
         },
         create: {
             dateOfBirth: new Date(formData.get('dateOfBirth')),
@@ -102,4 +116,18 @@ export async function createUpdateProfile(prevState, formData) {
 
 export async function addToFriends(prevState, formData) {
 
+}
+
+
+
+
+export async function addPost(formData) {
+    const post = await prisma.posts.create({
+        data: {
+            text: formData.get('newPost'),
+            userId: await getServerSessionId()
+        }
+    })
+
+    revalidatePath('/my')
 }

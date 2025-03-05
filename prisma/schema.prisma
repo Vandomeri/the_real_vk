@@ -26,6 +26,10 @@ model users {
 
   chats chats[]
 
+  posts posts[]
+
+  comments comments[]
+
   role String @default("user")
 
   sentRequests friends[] @relation(name: "user")
@@ -35,15 +39,15 @@ model users {
 model users_profile {
   id Int @id @default(autoincrement())
 
-  avatar      String?  @default("defaultAvatar.png")
-  dateOfBirth DateTime
+  avatar      String?   @default("defaultAvatar.png")
+  dateOfBirth DateTime?
   sex         String
   aboutMe     String
   country     String
   city        String
-  status      String?  @default("")
-  user        users    @relation(fields: [usersId], references: [id])
-  usersId     Int      @unique
+  status      String?   @default("")
+  user        users     @relation(fields: [usersId], references: [id])
+  usersId     Int       @unique
 }
 
 model friends {
@@ -75,4 +79,32 @@ model messages {
 
   senderId    Int
   recipientId Int
+}
+
+model posts {
+  id Int @id @default(autoincrement())
+
+  text  String
+  image String?
+
+  users  users? @relation(fields: [userId], references: [id])
+  userId Int?
+
+  comments comments[]
+
+  created DateTime @default(now())
+}
+
+model comments {
+  id Int @id @default(autoincrement())
+
+  text String
+
+  users  users? @relation(fields: [userId], references: [id])
+  userId Int?
+
+  posts   posts? @relation(fields: [postsId], references: [id])
+  postsId Int?
+
+  created DateTime @default(now())
 }

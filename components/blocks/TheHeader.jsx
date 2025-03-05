@@ -23,7 +23,7 @@ export default function TheHeader({ session }) {
                         ) :
                         (
                             <>
-                                <Link href="register">Регистрация</Link>
+                                <Link href="/register">Регистрация</Link>
                                 <Link href='/login'>Вход</Link>
                             </>
                         )
